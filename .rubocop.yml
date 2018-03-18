@@ -1,0 +1,6 @@
+AllCops:
+  TargetRubyVersion: 2.5
+
+inherit_gem:
+  rubocop-codetakt:
+    - config/rubocop.yml
