@@ -6,6 +6,8 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'chatwork'
 gem 'dotenv'
+gem 'hashie'
+gem 'slack-post'
 
 group :development, :test do
   gem 'rubocop-codetakt'
