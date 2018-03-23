@@ -1,11 +1,14 @@
-require 'json'
-require 'dotenv/load'
+require 'yaml'
 require 'chatwork'
 
-CHATWORK_ROOM_ID = ENV.fetch('CHATWORK_ROOM_ID')
+config = Hashie::Mash.load('config.yml')
 
-messages = ChatWork::Message.get(room_id: CHATWORK_ROOM_ID, force: true)
+config.each do |_name, props|
+  ChatWork.api_key = props.chatwork.api_key
+  messages = ChatWork::Message.get(room_id: props.chatwork.room_id, force: true)
 
-File.open("#{CHATWORK_ROOM_ID}_messages.json", 'w') do |f|
-  f.print(JSON.pretty_generate(messages))
+  YAML.dump(
+    messages.map(&:to_hash),
+    File.open("#{props.chatwork.room_id}_messages.yml", 'w'),
+  )
 end
